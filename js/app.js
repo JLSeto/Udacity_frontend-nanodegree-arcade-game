@@ -1,22 +1,20 @@
-// Enemies our player must avoid
 var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = -101;
-    this.y =41.5;
+    this.y = randomEnemies();
+    console.log(this.y);
     this.speed = 300;
 };
+
+var randomEnemies = function() {
+  var set = [41.5, 93, 124.5, 166];
+  var rndm =  Math.floor(Math.random()*4);
+  return set[rndm];
+}
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     this.x += this.speed*dt;
     if(this.x>505){
       this.x=-101;
@@ -32,15 +30,12 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
 var player = function() {
   this.sprite = 'images/char-boy.png';
   this.x =202; //0 is first column. 101 is 2nd.
   this.y = 373.5; //41.5 is middle of a row 41.5*9
 };
+
 player.prototype = Object.create(Enemy.prototype);
 player.prototype.constructor = player;
 player.prototype.update = function(){
@@ -48,6 +43,7 @@ player.prototype.update = function(){
     this.x=202;
     this.y = 373.5;
   }
+
 };
 player.prototype.handleInput = function(keys){
   switch(keys){
@@ -72,13 +68,7 @@ player.prototype.handleInput = function(keys){
 // Place the player object in a variable called player
 var allEnemies = [];
 allEnemies.push(new Enemy());
-
 var player = new player();
-
-
-allEnemies.forEach(function(element) {
-  console.log(element);
-});
 
 
 // This listens for key presses and sends the keys to your
